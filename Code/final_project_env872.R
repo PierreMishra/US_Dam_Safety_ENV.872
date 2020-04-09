@@ -9,6 +9,8 @@ getwd()
 
 
 # Load your datasets
-dam <- read.csv("Data/Raw/Dams.csv")
+da <- read.csv("Data/Raw/Dams.csv")
 str(dam)
 https://github.com/PierreMishra/Mishra_FinalProject_ENV.872.git
+
+hellogi
