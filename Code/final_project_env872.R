@@ -1,16 +1,19 @@
-# Set your working directory
+# Setting working directory
 getwd()
 #setwd("./")
 
-# Load your packages
+# Loading packages
+#library(plyr)
+library(tidyverse)
+
+# Setting ggplot theme
 
 
-# Set your ggplot theme
-
-
-# Load your datasets
-da <- read.csv("Data/Raw/Dams.csv")
-str(dam)
-https://github.com/PierreMishra/Mishra_FinalProject_ENV.872.git
-
-hellogi
+# Loading tabular dataset
+df <- read.csv("Data/Raw/Dams.csv")
+colnames(df) <- tolower(colnames(df)) # lowecase column headers
+dam <- df[,-c(1,2,4)]
+dam <- dam %>%
+  select(-c(other_name,own_name,  )
+colnames(dam)
+head(dam)
