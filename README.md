@@ -1,16 +1,10 @@
 # US Dam Safety and Climate Change
 
-<General notes: add as much information as is relevant for your repository. Some overarching guidelines are provided, but feel free to expand on these guidelines.>
-<More resources found here: https://www.dataone.org/all-best-practices>
-<Delete the text inside the brackets when formatting your file.>
-
 ## Summary
 
 This repository contains the files pertaining to the hydrologic analysis of dams and their safety in US and specifically, North Carolina. Despite their socio-economic benefits, dams are prone to failure which can cause massive loss of life and property. According to the National Inventory of Dams (NID), currently, there are 14,254 dams that are classified as having high risk of failure. Therefore, my first goal is to study the variables related to dams that can affect their classification of failure risk. For such purpose, I use the 2019 National Inventory of Dams dataset released by the US Army Corps of Engineers. 
 
 Moreover, I also plan to investigate the effect of precipitation and/or discharge on dam failure risk. Climate Change is increasing frequency of heaviest precipitation events across the US that can stress the physical structure of dams. For such purpose, I use USGS North Carolina stream gage data for the period of record in order to determine hydrologic trends.
-
-<describe the purpose of this repository, the information it contains, and any relevant analysis goals. What, why, where, when, how?>
 
 ## Investigators
 
@@ -50,27 +44,44 @@ File names are in the following format: final_project_env872_<title>(dot)<file_f
 ## Metadata
 
 Source: <https://nid.sec.usace.army.mil/ords/f?p=105:21:7801154475967::NO:::>
-Column Header | Description | Data Type
+Column Header | Description | .R Data Type
 --------------|-------------|-----------
-dam_name | Official name of the dam | Alphanumeric
-nidid | Official identification number for the dam | Alphanumeric
+dam_name | Official name of the dam | Character
+nidid | Official identification number for the dam | Character
 longitude | Longitude at dam centerline as a single value in decimal degrees, NAD83 | Number
 latitude |   Latitude at dam centerline as a single value in decimal degrees, NAD83 | Number
-county | Name of the county in which dam is located | Alphanumeric
-river | Official name of the river or stream on or near which the dam is built | Alphanumeric
-city | Name of the nearest downstream city, town, or village that is most likely to be affected by floods resulting from the failure of the dam | Alphanumeric
+county | Name of the county in which dam is located | Alphanumeric | Character
+river | Official name of the river or stream on or near which the dam is built | Character
+city | Name of the nearest downstream city, town, or village that is most likely to be affected by floods resulting from the failure of the dam | Character
 distance | Distance from the dam to the nearest affected downstream city/town/village in miles | Number
-owner_type | Code to indicate the type of owner:
-F for Federal;
-S for State;
-L for Local Government (defined as have taxing authority or is supported by taxes);
-U for Public Utility;
-P for Private;
-X for Not Listed.
-Codes are concatenated if the dam is owned by more than one type | Alphanumeric
-
-
-<For each data file in the repository, describe the data contained in each column. Include the column name, a description of the information, the class of data, and any units associated with the data. Create a list or table for each data file.> 
+owner_type | Code to indicate the type of owner: F for Federal;S for State; L for Local Government (defined as have taxing authority or is supported by taxes); U for Public Utility; P for Private; X for Not Listed. Codes are concatenated if the dam is owned by more than one type | Factor
+private_dam | Code indicating whether this dam is a non-federal dam located on federal property | Factor
+dam_type |  Codes, in order of importance, to indicate the type of dam: RE for Earth; ER for Rockfill; PG for Gravity; CB for Buttress; VA for Arch; MV for Multi-Arch; RC for Roller-Compacted Concrete; CN for Concrete; MS for Masonry; ST for Stone; TC for Timber Crib; OT for Other. Codes are concatenated if the dam is a combination of several types | Factor
+core | Code to indicate the position, type of watertight member and certainty, Position:F for upstream facing; H for homogeneous dam;I for core; X for unlisted/unknown; Type:A for bituminous concrete; C for concrete; E for earth; M for metal; P for plastic; X for unlisted/unknown; Certainty:K for known; Z for estimated | Factor
+foundation | Code for the material upon which dam is founded, and certainty, Foundation:R for rock; RS for rock and soil; S for soil; U for unlisted/unknown. Certainty:K for known; Z for estimated | Factor
+puroposes | Codes to indicate the current purpose(s) for which the reservoir is used:I for Irrigation; H for Hydroelectric; C for Flood Control and Storm Water Management; N for Navigation; S for Water Supply; R for Recreation; P for Fire Protection, Stock, Or Small Farm Pond; F for Fish and Wildlife Pond; D for Debris Control; T for Tailings; G for Grade Stabilization; O for Other. The order should indicate the relative decreasing importance of the purpose. Codes are concatenated if the dam has multiple purposes | Factor
+year_completed | Year (four digits) when the original main dam structure was completed.  If unknown, and reasonable estimate is unavailable, “0000” is used | Number
+dam_length | Length of the dam, in feet, which is defined as the length along the top of the dam.  This also includes the spillway, powerplant, navigation lock, fish pass, etc., where these form part of the length of the dam | Number
+dam_heigth | Height of the dam, in feet to the nearest foot , which is defined as the vertical distance between the lowest point on the crest of the dam and the lowest point in the original streambed | Number
+structural_height | Structural height of the dam, in feet to the nearest foot, which is defined as the vertical distance from the lowest point of the excavated foundation to the top of the dam | Number
+hydraulic_height |  Hydraulic height of the dam, in feet to the nearest foot , which is defined as the vertical difference between the maximum design water level and the lowest point in the original streambed | Number
+nid_height | Maximum value of dam height, structural height, and hydraulic height, in feet. Accepted as the general height of the dam | Number
+max_discharge | Number of cubic feet per second (cu ft/sec) which the spillway is capable of discharging when the reservoir is at its maximum designed water surface elevation | Number
+max_storage | Maximum storage, in acre-feet, which is defined as the total storage space in a reservoir below the maximum attainable water surface elevation, including any surcharge storage | Number
+normal_storage | Normal storage, in acre-feet, which is defined as the total storage space in a reservoir below the normal retention level, including dead and inactive storage and excluding any flood control or surcharge storage.  For normally dry flood control dams, the normal storage will be a zero value | Number
+nid_storage | Maximum value of normal storage and maximum storage.  Accepted as the general storage of the dam | Number
+surface_area | Surface area, in acres, of the impoundment at its normal retention level | Number
+drainage_area |  Drainage area of the dam, in square miles, which is defined as the area that drains to a particular point (in this case, the dam) on a river or stream | Number
+hazard | Code to indicate the potential hazard to the downstream area resulting from failure or mis-operation of the dam or facilities:L for Low; S for Significant; H for High U for Undetermined | Factor
+eap | Whether this dam has an Emergency Action Plan (EAP) developed by the dam owner. Y for Yes;N for No; NR for Not Required by submitting agency | Factor
+inspection_frequency | The scheduled frequency interval for periodic inspections, in years | Number
+state_reg_dam | Calculated field based on Permitting Authority, Inspection Authority and Enforcement Authority.  If Yes to all three authority criteria, then dam is state regulated and will be listed as Yes | Integer
+spillway_type | Code that describes the type of spillway:C for Controlled; U for Uncontrolled; N for None | Factor
+spillway_width | Width of the spillway, to the nearest foot, available for discharge when the reservoir is at its maximum designed water surface elevation.  Typically for an open channel spillway, this is the bottom width | Integer
+volume |   Total number of cubic yards occupied by the materials used in the dam structure.  Portions of powerhouse, locks, and spillways are included only if they are an integral part of the dam and required for structural stability | Number
+state | State where dam is located | Character
+enforcementauthority | Yes if the state regulatory organization has the authority to issue notices, when applicable, to require owners of dams to perform necessary maintenance or remedial work, revise operating procedures, or take other actions, including breaching dams when necessary (from the Dam Safety Act of 2006) | Factor 
+age | Years since a dams's construction completed | Number
 
 ## Scripts and code
 
@@ -102,13 +113,14 @@ dam$county <- as.character(dam$county)
 dam$river <- as.character(dam$river)
 dam$city <- as.character(dam$city)
 dam$state <- as.character(dam$state)
+
+# Removing dam records for which risk potential is undetermined or not available
+dam <- droplevels(dam[!(dam$hazard=="U" | dam$hazard=="N"),])
+
+# Calculating the age of dams
+dam$age <- 2019 - dam$year_completed
 ``` 
 
 ## Quality assurance/quality control
 
-<describe any relevant QA/QC procedures taken with your data. Some ideas can be found here:>
-<https://www.dataone.org/best-practices/develop-quality-assurance-and-quality-control-plan>
-<https://www.dataone.org/best-practices/ensure-basic-quality-control>
-<https://www.dataone.org/best-practices/communicate-data-quality>
-<https://www.dataone.org/best-practices/identify-outliers>
-<https://www.dataone.org/best-practices/identify-values-are-estimated>
+The NID dataset was checked for erroneous data entry. Scatterplots were plotted for continuous variables to check for outliers. The values for each column were made consistent with relevant data type of that column. 
