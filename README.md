@@ -40,7 +40,7 @@ Accessed: TBD
   + Processed - Contains edited csv file
 * Output - Contains .rmd file for developing the report and presenting results of the analysis
 
-File names are in the following format: final_project_env872_<title>.<extension>
+File names are in the following format: final_project_env872_<title>.<ext>
 
 ## Metadata
 
