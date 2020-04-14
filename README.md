@@ -1,5 +1,9 @@
 # US Dam Safety and Climate Change
 
+<General notes: add as much information as is relevant for your repository. Some overarching guidelines are provided, but feel free to expand on these guidelines.>
+<More resources found here: https://www.dataone.org/all-best-practices>
+<Delete the text inside the brackets when formatting your file.>
+
 ## Summary
 
 This repository contains the files pertaining to the hydrologic analysis of dams and their safety in US and specifically, North Carolina. Despite their socio-economic benefits, dams are prone to failure which can cause massive loss of life and property. According to the National Inventory of Dams (NID), currently, there are 14,254 dams that are classified as having high risk of failure. Therefore, my first goal is to study the variables related to dams that can affect their classification of failure risk. For such purpose, I use the 2019 National Inventory of Dams dataset released by the US Army Corps of Engineers. 
@@ -13,11 +17,12 @@ Moreover, I also plan to investigate the effect of precipitation and/or discharg
 Pierre Mishra
 Masters of Environmental Management, 2021
 Nicholas School of the Environment, Duke University
+
 Contact: prashank.mishra@duke.edu
 
 ## Keywords
 
-dam safety, precipitation, water infrastructure, hydrology, north carolina
+dam safety, precipitation, water infrastructure, hydrology, north carolina, national inventory of dams, usgs gage data, climate change
 
 ## Database Information
 
@@ -40,7 +45,7 @@ Accessed: TBD
   + Processed - Contains edited csv file
 * Output - Contains .rmd file for developing the report and presenting results of the analysis
 
-File names are in the following format: final_project_env872_<title>.<ext>
+File names are in the following format: final_project_env872_<title>(dot)<file_format>
 
 ## Metadata
 
@@ -49,6 +54,20 @@ Column Header | Description | Data Type
 --------------|-------------|-----------
 dam_name | Official name of the dam | Alphanumeric
 nidid | Official identification number for the dam | Alphanumeric
+longitude | Longitude at dam centerline as a single value in decimal degrees, NAD83 | Number
+latitude |   Latitude at dam centerline as a single value in decimal degrees, NAD83 | Number
+county | Name of the county in which dam is located | Alphanumeric
+river | Official name of the river or stream on or near which the dam is built | Alphanumeric
+city | Name of the nearest downstream city, town, or village that is most likely to be affected by floods resulting from the failure of the dam | Alphanumeric
+distance | Distance from the dam to the nearest affected downstream city/town/village in miles | Number
+owner_type | Code to indicate the type of owner:
+F for Federal;
+S for State;
+L for Local Government (defined as have taxing authority or is supported by taxes);
+U for Public Utility;
+P for Private;
+X for Not Listed.
+Codes are concatenated if the dam is owned by more than one type | Alphanumeric
 
 
 <For each data file in the repository, describe the data contained in each column. Include the column name, a description of the information, the class of data, and any units associated with the data. Create a list or table for each data file.> 
