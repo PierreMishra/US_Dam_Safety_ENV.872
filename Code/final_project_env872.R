@@ -254,6 +254,7 @@ summary_table
 
 
 head(dam)
+head(dam)
 #-------------------------------------Monotonic trend analysis
 
 # importing gage data
