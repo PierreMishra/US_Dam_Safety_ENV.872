@@ -9,6 +9,7 @@ library("tidyverse")
 library("sf")
 library("ggmap")
 library("here")
+<<<<<<< HEAD
 library("viridis")
 library("RColorBrewer")
 library("colormap")
@@ -22,6 +23,8 @@ library("scico")
 library("corrplot")
 library("GGally")
 
+=======
+>>>>>>> 649baf41350e87761aafd6dbf815263a201968ff
 
 # setting ggplot theme
 peaceful.theme <- theme_classic(base_size = 14) +
@@ -32,7 +35,11 @@ peaceful.theme <- theme_classic(base_size = 14) +
 df <- read.csv("Data/Raw/NID2019_U.csv")
 colnames(df) <- tolower(colnames(df)) # lowecase column headers
 
+<<<<<<< HEAD
 # Removing irrelevant columns
+=======
+# Removing absolutely unnecessary columns
+>>>>>>> 649baf41350e87761aafd6dbf815263a201968ff
 dam <- df %>%   
   select(-c("other_dam_name","dam_former_name", "section",
             "stateid", "owner_name", "dam_designer",
@@ -65,6 +72,7 @@ dam <- droplevels(dam[!(dam$hazard=="U" | dam$hazard=="N"),])
 # Calculating the age of dams
 dam$age <- 2019 - dam$year_completed
 
+<<<<<<< HEAD
 # Cleaning certian columns
 
 #----------------------------------------------------Exploratory data analysis
@@ -426,6 +434,12 @@ dev.off()
 
 # identifying outliers in continuous data
 ggplot()
+=======
+#-------------Exploratory data analysis
+# Dam safety hazards
+ggplot(dam) +
+  geom_boxplot(aes(hazard))
+>>>>>>> 649baf41350e87761aafd6dbf815263a201968ff
 
 # exploring variables that explain dam safety
 
