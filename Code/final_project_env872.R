@@ -9,7 +9,6 @@ library("tidyverse")
 library("sf")
 library("ggmap")
 library("here")
-<<<<<<< HEAD
 library("viridis")
 library("RColorBrewer")
 library("colormap")
@@ -23,9 +22,6 @@ library("scico")
 library("corrplot")
 library("GGally")
 
-=======
->>>>>>> 649baf41350e87761aafd6dbf815263a201968ff
-
 # setting ggplot theme
 peaceful.theme <- theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "black"), 
@@ -35,11 +31,8 @@ peaceful.theme <- theme_classic(base_size = 14) +
 df <- read.csv("Data/Raw/NID2019_U.csv")
 colnames(df) <- tolower(colnames(df)) # lowecase column headers
 
-<<<<<<< HEAD
 # Removing irrelevant columns
-=======
 # Removing absolutely unnecessary columns
->>>>>>> 649baf41350e87761aafd6dbf815263a201968ff
 dam <- df %>%   
   select(-c("other_dam_name","dam_former_name", "section",
             "stateid", "owner_name", "dam_designer",
@@ -72,8 +65,8 @@ dam <- droplevels(dam[!(dam$hazard=="U" | dam$hazard=="N"),])
 # Calculating the age of dams
 dam$age <- 2019 - dam$year_completed
 
-<<<<<<< HEAD
 # Cleaning certian columns
+
 
 #----------------------------------------------------Exploratory data analysis
 
@@ -82,7 +75,8 @@ colSums(is.na(dam))
 
 # dam safety hazards
 ggplot(dam, aes(x=hazard)) +
-  geom_bar() + peaceful.theme
+  geom_bar() + labs (x = "Count", y = "Hazard") +
+  peaceful.theme
 
   # hazard vs owner type ####PROBABLY NOT
 ggplot(dam) +
@@ -252,15 +246,13 @@ pval <- pnorm(abs(summary_table[, "t value"]),lower.tail = FALSE)* 2
 summary_table <- cbind(summary_table, "p value" = round(pval,3))
 summary_table
 
-
-head(dam)
-head(dam)
 #-------------------------------------Monotonic trend analysis
 
 # importing gage data
 huc8 <- read.csv("Data/Raw/wy01d_col_data.txt", 
                  sep = "\t")
-basin_nc <- st_read(here("Data", "Raw", "8Digit_HUC_Subbasins.shp"))
+# importing subbasins using API
+basin_nc <- st_read("../../../8Digit_HUC_Subbasins/8Digit_HUC_Subbasins.shp")
 
 # renaming columns
 colnames(huc8) <- sub("X", "", colnames(huc8))
@@ -291,8 +283,8 @@ dam_nc <- select(dam_nc, nidid, longitude, latitude, county, river, city, hazard
 dam_nc$huc8 <- 
 
 # importing NC boundary shapefile and streams shapefile
-stream_nc_raw <- st_read(here("Data", "Raw", "2014_IR_ Overall_Cat.shp"))
-stream_nc_raw$AU_NAME <- tolower(stream_nc_raw$AU_NAME)
+# stream_nc_raw <- st_read(here("Data", "Raw", "2014_IR_ Overall_Cat.shp"))
+# stream_nc_raw$AU_NAME <- tolower(stream_nc_raw$AU_NAME)
 #colnames(stream_nc_raw)[3] <- "river"
 #### +proj=lcc +lat_1=36.16666666666666 +lat_2=34.33333333333334 +lat_0=33.75 +lon_0=-79 +x_0=609601.22 +y_0=0 +datum=NAD83 +units=m +no_defs
 state_bound_raw <- st_read(here("Data","Raw", "state_bounds.shp"))
@@ -300,7 +292,7 @@ state_bound_raw_nc <- state_bound_raw[which(state_bound_raw$NAME == "North Carol
 #### +proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs
 
 # selecting rivers with dams
-stream_nc_raw <- subset(stream_nc_raw, AU_NAME %in% dam_nc$river)
+#stream_nc_raw <- subset(stream_nc_raw, AU_NAME %in% dam_nc$river)
 
 
 # setting CRS for shapefiles
