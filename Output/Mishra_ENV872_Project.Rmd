@@ -42,26 +42,24 @@ library("tseries")
 library("scico")
 library("corrplot")
 library("GGally")
-# Set your ggplot theme
+# Setting ggplot theme
 peaceful.theme <- theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "black"), 
         legend.position = "right")
-# Load your datasets
-
 ```
 
 
 # Rationale and Research Questions
 
-Dams are an integral part of the modern economy as they satisfy the water demands of a growing population. In addition to providing hydroelectricity and recreational services, they are crucial for ensuring enough water supply in areas where water is scare and, for preventing floods in areas with abundant rainfall and storms. Dams are central to storing and managing US waters. Currently, US has a network of 90,000 dams spread across its 50 states, about two-thirds of which were constructed more than 50 years ago. Aging dams can be more prone to failure and can pose risk to downstream cities. Moreover, at the time of their construction, they might have been in rural areas where a failure would not have caused any damage to life and property. However, since then there has been a growth in urbanization which increase the vulnerability of the population living near the dams. 
+Dams are an integral part of the US economy as they satisfy the water demands of a growing population. In addition to providing hydroelectricity and recreational services, they are crucial for regulating water supply in drought and flood-prone areas. Dams are central to storing and managing US waters. Currently, US has a network of 90,000 dams spread across its 50 states, about two-thirds of which were constructed more than 50 years ago. Aging dams can be more prone to failure and can pose risk to downstream cities. Moreover, at the time of their construction, dams might have been constructed in rural areas where a failure would not have caused any damage to life and property. However,growing urbanization has increased the vulnerability of the population living in those formerly desserted areas. 
 
 Research Question I: Which physical characteristics of a dam influence its hazard potential? 
 
-Realizing the socio-economic risks of a dam failure, the Congress passed the National Dam Inspection Act in 1972 which authorizes the US Army Corps of Engineers (USACE) to create dam inventory of the US. Since then various acts have passed to improve funding for improving data collection and interpretation efforts. The 2019 National Inventory of Dam (NID) dataset includes an inventory of 91,457 dams and classifies them as low, significant, and high-risk potential. A dam is a high safety hazard if its failure is likely to bring a significant damage to human property and loss of life in downstream areas. In addition to criteria determined by USACE, this analysis investigates several features of a dam and explore which dam characteristics can predict can its hazard potential.
+Realizing the socio-economic risks of a dam failure, the Congress passed the National Dam Inspection Act in 1972 which authorizes the US Army Corps of Engineers (USACE) to create dam inventory of the US. Since then various acts have passed to improve funding for improving data collection and interpretation efforts. The 2019 National Inventory of Dam (NID) dataset includes an inventory of 91,457 dams and classifies them as low, significant, and high-risk potential. A dam is a high safety hazard if its failure is likely to bring a significant damage to human property and loss of life in downstream areas. In addition to criteria determined by USACE, this analysis investigates several features of a dam and explores which dam characteristics can predict its hazard potential.
 
-Research Question II: What is the spatial distribution of North Carolina dams with varying hazard potential in hydrologic units with temporal streamflow trends?
+Research Question II: What is the spatial distribution of North Carolina dams with varying hazard potential in hydrologic units with varying temporal streamflow trends?
 
-One of the common reasons of a dam failure is overtopping due to excessive storms or floods exceeding the capacity of dams. Such gravitation movement of water over the dams can damage the foundation of the dam thereby making it more susceptible to failure. On the other hand, low water availability risks all the services that a dam provides. This paper investigated the temporal trends of water flows in North Carolina sub-basins and determined how the dams with varying hazard potential are distributed across sub-basins of varying water flow trends.   
+One of the common reasons of a dam failure is overtopping due to excessive storms or floods exceeding the capacity of dams. Such gravitation movement of water over the dams can damage the foundation of the dam thereby making it more susceptible to failure. On the other hand, low water availability risks all the services that a dam provides. This paper investigates the temporal trends of water flows in North Carolina (NC) sub-basins and determines how the dams with varying hazard potential are distributed across sub-basins of varying water flow trends.   
 
 
 \newpage
@@ -70,7 +68,7 @@ One of the common reasons of a dam failure is overtopping due to excessive storm
 
 The first dataset was procured from the USACE National Inventory of Dam (NID) website at https://nid.sec.usace.army.mil/ords/f?p=105:1:::::: for gathering information on US dams. The dataset was downloaded in a Comma Separated Value (csv) format and was saved as “NID2019_U.csv”. The 2019 NID dataset comprised of 91,457 dam records with 69 variables related to its identification, geography, physical characteristics, architecture, regulation, and political affiliation. This dataset was further wrangled and processed to retain certain variables of interest and saved as “dam.csv” for further processing. 
 
-The second dataset included water run-off data for US sub basins and was downloaded from the WaterWatch platform hosted by United States Geological Survey (USGS) website at https://waterwatch.usgs.gov/index.php?id=romap3&sid=w__download. The dataset was downloaded in a tab separated text file called “wy01d_col_data.txt”. It contained 2,111 columns for every HUC-8 unit in the US and the first column being the years (1901 – 2019) for which water run-off was calculated. The downloaded folder also contained a PDF file which included detailed instructions of how water run-off for every sub-basin was calculated. 
+The second dataset included water run-off data for US sub basins and was downloaded from the WaterWatch platform hosted by United States Geological Survey (USGS) website at https://waterwatch.usgs.gov/index.php?id=romap3&sid=w__download. The dataset was downloaded in a tab separated text file called “wy01d_col_data.txt”. It contained 2,111 columns for every HUC-8 unit in the US and the first column being the years (1901 – 2019) for which water run-off was calculated. The downloaded folder also contained a PDF file which included detailed instructions of how water run-off was calculated for every sub-basin. 
 
 The third dataset was a shapefile of all the HUC-8 basins in North Carolina. It was downloaded from the ArcGIS application of NC Department of Environmental Quality at http://data-ncdenr.opendata.arcgis.com/datasets/8-digit-huc-subbasins?geometry=-85.940%2C33.597%2C-73.899%2C36.739&orderBy=HUC_8&orderByAsc=false.  
 
@@ -82,11 +80,12 @@ The fourth dataset was also a shapefile of US state boundaries by the US Departm
 
 ## Preparing dataset for statistical model
 
-The 2019 NID dam dataset was wrangled to remove irrelevant columns and retain variables of interest. It was then corrected for class of data in each column. Since hazard potential is the response variable of our first research question, any observation with undetermined (“U”) or not available (“N”) hazard potential was dropped. Another column was added that calculated the age of each dam since the year of completed construction. 
+The 2019 NID dam dataset was wrangled to remove irrelevant columns and retain variables of interest. It was then corrected for class of data in each column. Since hazard potential is the response variable of our first research question, any observation with undetermined (“U”) or not available (“N”) hazard potential was dropped. The hazard potential was also converted into an ordinal categorical variable with the order L < S < H.  Another column was added that calculated the age of each dam since the year of completed construction. 
 
 ```{r}
+# Load datasets
 # Dam dataset
-df <- read.csv("Mishra_FinalProject_ENV.872/Data/Raw/NID2019_U.csv")
+df <- read.csv("../Data/Raw/NID2019_U.csv")
 
 # Getting familiar with the dataset
 colnames(df)
@@ -123,10 +122,13 @@ dam$state <- as.character(dam$state)
 # Removing dam records with undetermined or NA risk
 dam <- droplevels(dam[!(dam$hazard=="U" | dam$hazard=="N"),])
 
+# Making dam hazard column into ordinal categorical type
+dam$hazard <- factor(dam$hazard, order = TRUE, levels = c("L", "S", "H"))
+
 # Calculating the age of dams
 dam$age <- 2019 - dam$year_completed
 
-# Export
+# Export (Uncomment to export processed data)
 #write.csv(dam, "Data/Processed/dam.csv")
 ```
 
@@ -162,7 +164,7 @@ ggplot(dam) +
 
 ```
 
-Focusing on our first research question, variables representing physical dam characterisitics were extracted and stored in a separate data frame. Based on background exploratory analysis, the variables were log transformed and stored in a new dataframe along with the response variable, hazard classification. All the variables were plotted as a boxplot. It was found that volume had a lot of zero values. Being ready for performing statistical analysis the file was exported in the processed folder.
+Focusing on our first research question, variables representing physical dam characterisitics were extracted and stored in a separate data frame. Based on background exploratory analysis, the variables were log transformed and stored in a new dataframe along with the response variable, hazard classification. All the variables were plotted as a boxplot. It was found that volume had a lot of zero values. The data was then exported in the processed folder to further perform statistical analysis.
 
 ```{r}
 # selecting physical characteristics of dams
@@ -225,14 +227,14 @@ ggplot(log_dam_characteristics) +
 
 ## Preparing datasets for geospatial analysis
 
-The dataset containing water run-off time series for all US sub-basins was imported. Its columns was renamed by erasing the letter 'X' in front of HUC-8 number. A shapefile for NC sub-basins was used to extract run-off data for North Carolina HUC-8 units only. The newly obtained NC gage data was stored in a separate dataframe. It was converted into a time series object for monotonic trend analysis.
+The dataset containing water run-off time series for all US sub-basins was imported. Its columns were renamed by erasing the letter 'X' in front of HUC-8 number. A shapefile for NC sub-basins was used to extract run-off data for North Carolina HUC-8 units. The newly obtained NC gage data was stored in a separate dataframe. It was converted into a time series object for monotonic trend analysis.
 
 ```{r}
 # Importing gage time series data
-huc8 <- read.csv("Mishra_FinalProject_ENV.872/Data/Raw/wy01d_col_data.txt", 
+huc8 <- read.csv("../Data/Raw/wy01d_col_data.txt", 
                  sep = "\t")
 # Importing NC sub-basins shapefile
-basin_nc <- st_read("../../8Digit_HUC_Subbasins/8Digit_HUC_Subbasins.shp")
+basin_nc <- st_read("../Data/Raw/8Digit_HUC_Subbasins.shp")
 
 # renaming columns of gage dataset
 colnames(huc8) <- sub("X", "", colnames(huc8))
@@ -244,11 +246,11 @@ ncolumns <- ncol(huc8_nc)
 huc8_nc$date <- as.Date(huc8_nc$date, origin = "1901-01-01")
 huc8_nc_ts <- ts(huc8_nc[2:ncolumns]) 
 
-# Saving run-off time series for NC
+# Saving run-off time series for NC (Uncoomment to export the processed data)
 #write.csv(huc8_nc, "Data/Processed/huc8_runoff_nc.csv")
 ```
 
-From the 2019 NID dam dataset used above, North Carolina dams were subsetted along with their relevant geographical information. Using the 'sf' package it was converted from tabular data to sf object. Then using the US state boundary shapefile, NC boundary was stored in a new sf object and relevant coordinate reference systems were assigned.
+From the 2019 NID dam dataset used above, North Carolina dams were subsetted along with their relevant geographical information. Using the 'sf' package it was converted from tabular data to an 'sf' object. Then using the US state boundary shapefile, NC boundary was stored in a new 'sf' object and relevant coordinate reference systems were assigned.
 
 ```{r}
 # subsetting north carolina dams
@@ -258,7 +260,7 @@ dam_nc <- select(dam_nc, nidid, longitude, latitude,
                  county, river, city, hazard, state)
 
 # importing NC boundary shapefile
-state_bound_raw <- st_read("Mishra_FinalProject_ENV.872/Data/Raw/state_bounds.shp")
+state_bound_raw <- st_read("../Data/Raw/state_bounds.shp")
 state_bound_raw_nc <- state_bound_raw[which(state_bound_raw$NAME == "North Carolina"),]
 
 # setting CRS
@@ -289,7 +291,7 @@ dam_nc_geo <- st_as_sf (dam_nc, coords = c("longitude",
 
 ## Question 1: Which physical characteristics of a dam influence its safety hazard? 
 
-Since the safety hazard of dams follows an order of severity, which is High (H) > Significant (S) > Low (L), and because it is a factor variable, it was determined that an ordinal logistic regression (OLR) would be the appropriate model to investigate the effects of physical dam features on hazard potential. The predictor variables chosen were a dam's volume, storage capacity, spillway width, drainage area, architectural height, surface area and dam length. 5 different OLR models were tested by selecting a combination of aforementioned variables. However, all-inclusive OLR model returned the lowest AIC value. There, all the variables were included. The 'polr' function used to do OLR did not return p-values. Therefore, p-values were separately by using t-value against standard normal distribution.
+Since the safety hazard of dams follows an order of severity, which is High (H) > Significant (S) > Low (L), and because it is an ordered factor variable, it was determined that an ordinal logistic regression (OLR) would be the appropriate model to investigate the effects of physical dam features on hazard potential. The predictor variables chosen were a dam's volume, storage capacity, spillway width, drainage area, architectural height, surface area and dam length. 5 different OLR models were tested by selecting a combination of aforementioned variables. However, all-inclusive OLR model returned the lowest AIC value. Therefore, all the variables were included. The 'polr' function used to do OLR does not return p-values. Therefore, p-values were separately calculated by using t-value against standard normal distribution.
 
 ```{r}
 library("MASS")
@@ -304,9 +306,9 @@ summary_table <- cbind(summary_table, "p value" = round(pval,3))
 summary_table
 ```
 
-From the p-values of the model results, we can observe that except the spillway width and surface area of a dam, all other variables have a significant effect on the safety hazard of a dam. The OLR model coefficients are exponentiated below for easy interpretation. For instance, we can say that with one unit increase of volume, the log of odds of having a higher safety hazard of dams increases by a factor of 1.03. Similarly, one unit increase in storage, drainage area, height and length affects the log of odds of increasing dam safety risk by a factor of their respective exponentiated coefficients.
+From the p-values of the model results, we can observe that except the spillway width and surface area of a dam, all other variables have a significant effect on the safety hazard of a dam. The OLR model coefficients are exponentiated below for easy interpretation. For instance, we can say that with one unit increase of volume, the log of odds of having a higher safety hazard of dams is affected by a factor of 1.03. Similarly, one unit increase in storage, drainage area, height and length affects the log of odds of increasing dam safety risk by a factor of their respective exponentiated coefficients.
 
-Predictors | Exponentiated OLR coefficient
+Predictors | Exponentiated OLR coefficients
 -----------|------------------------------
 Volume | 1.03
 Storage | 0.82
@@ -376,7 +378,7 @@ count(h[which(h$trend < 0),]) #514
 
 # Summary and Conclusions
 
-This study focused on understanding the physical determinants of dam safety hazards. In addition, it aimed to understand the temporal changes in run-off that can affect the dam operations. It was found that volume, storage, drainage area, height and length have a siginificant effect on hazard potential of dams which might be intuitive as failure of larger dams can cause greater damages to life and property. In addition it was found that a majority of dams irrespective of their safety hazard are located in sub-basins witnessing a decereasing trend in annual discharge. While decreasing water availability prevents a dam to operate on its full potential, they also decrease the chances of dam failures due to overtopping. Similar analyis can be performed for other states as well in order to focus on high risk dams situation in areas with increasing water flows and developing management strategies to prevent dam failures.
+This study focused on understanding the physical determinants of dam safety hazard. In addition, it aimed to understand the temporal changes in run-off that can affect the dam operations. It was found that volume, storage, drainage area, height and length have a siginificant effect on hazard potential of dams which might be intuitive as failure of larger dams can cause greater damages to life and property. In addition it was found that a majority of dams irrespective of their safety hazard are located in sub-basins witnessing a decereasing trend in annual discharge. While decreasing water availability prevents a dam to operate on its full potential, they also decrease the chances of dam failures due to overtopping. Similar analyis can be performed for other states as well in order to focus on high risk dams situation in areas with increasing water flows and developing management strategies to prevent dam failures.
 
 
 \newpage
