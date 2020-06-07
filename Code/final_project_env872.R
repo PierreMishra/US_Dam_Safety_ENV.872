@@ -1,7 +1,3 @@
-# Setting working directory
-getwd()
-#setwd("./")
-
 # Loading packages
 library("ggplot2")
 library("plyr")
@@ -28,11 +24,10 @@ peaceful.theme <- theme_classic(base_size = 14) +
         legend.position = "right")
 
 # Loading tabular dataset
-df <- read.csv("Data/Raw/NID2019_U.csv")
+df <- read.csv("./Data/Raw/NID2019_U.csv")
 colnames(df) <- tolower(colnames(df)) # lowecase column headers
 
 # Removing irrelevant columns
-# Removing absolutely unnecessary columns
 dam <- df %>%   
   select(-c("other_dam_name","dam_former_name", "section",
             "stateid", "owner_name", "dam_designer",
@@ -65,8 +60,6 @@ dam <- droplevels(dam[!(dam$hazard=="U" | dam$hazard=="N"),])
 # Calculating the age of dams
 dam$age <- 2019 - dam$year_completed
 
-# Cleaning certian columns
-
 
 #----------------------------------------------------Exploratory data analysis
 
@@ -78,7 +71,7 @@ ggplot(dam, aes(x=hazard)) +
   geom_bar() + labs (x = "Count", y = "Hazard") +
   peaceful.theme
 
-  # hazard vs owner type ####PROBABLY NOT
+# hazard vs owner type ####PROBABLY NOT
 ggplot(dam) +
   geom_bar(aes(x=hazard, fill = owner_type), position = "dodge") +
   peaceful.theme
@@ -90,7 +83,7 @@ ggplot(dam) +
 #### there are different levels with same name 'N', empty value
 
 # hazard vs dam height #### YES
-ggplot(data = dam) +
+ggplot(dam) +
   geom_point(aes(x = hazard, y = dam_height))
 
 #### hazard vs primary purpose
@@ -176,10 +169,6 @@ for (i in ncols(dam_characteristics)) {
 ggplot(dam) +
   geom_hist (aes(x=volume))
 
-#-------------------------------------Cleaning some columns
-
-
-
 #-------------------------------------Multinomial (Ordinal) Logistic Model
 # age, enforcementauthority, volume, spillway width, inspection frequency,
 # distance, drainage area, hydraulic height, surface area, structural height,
@@ -249,10 +238,10 @@ summary_table
 #-------------------------------------Monotonic trend analysis
 
 # importing gage data
-huc8 <- read.csv("Data/Raw/wy01d_col_data.txt", 
+huc8 <- read.csv("./Data/Raw/wy01d_col_data.txt", 
                  sep = "\t")
 # importing subbasins using API
-basin_nc <- st_read("../../../8Digit_HUC_Subbasins/8Digit_HUC_Subbasins.shp")
+basin_nc <- st_read("./Data/Raw/8Digit_HUC_Subbasins.shp")
 
 # renaming columns
 colnames(huc8) <- sub("X", "", colnames(huc8))
@@ -326,20 +315,20 @@ dam_nc_geo <- st_as_sf (dam_nc, coords = c("longitude",
                      crs = 4326, dim = "XY")
 
 
-# plotting all the shapefile layers
-# limit <- max(abs(basin_nc$trend)) * c(-1,1)
-# pdf(here("Output", "newest.pdf"), width = 11, height = 8.5)
-# ggplot() +
-#   geom_sf(data = state_bound_nc_geom, fill = NA) +
-#   geom_sf(data = basin_nc, aes(fill = trend), color = "black") +
-#   scale_fill_scico (palette = "broc", limit = limit, direction = -1) +
-#   geom_sf(data = dam_nc_geo, aes(color = hazard), size = 1.5, alpha = 0.5, show.legend = "point") +
-#   scale_color_manual(values = c("red", "green", "orange")) + 
-#   labs(x = 'Longitude', y='Latitude', title = "NC Dam Hazard and Monotonic Trend Analysis of subbasin (HUC8) annual water \nrun-off (1901-2018)\n", 
-#        color = "Dam Hazard", fill = "Trend Coefficient (%)") +
-#   theme_bw() + theme(legend.key = element_blank()) + 
-#                        peaceful.theme
-# dev.off()
+#plotting all the shapefile layers
+limit <- max(abs(basin_nc$trend)) * c(-1,1)
+pdf(here("Output", "newest.pdf"), width = 11, height = 8.5)
+ggplot() +
+  geom_sf(data = state_bound_nc_geom, fill = NA) +
+  geom_sf(data = basin_nc, aes(fill = trend), color = "black") +
+  scale_fill_scico (palette = "broc", limit = limit, direction = -1) +
+  geom_sf(data = dam_nc_geo, aes(color = hazard), size = 1.5, alpha = 0.5, show.legend = "point") +
+  scale_color_manual(values = c("red", "green", "orange")) +
+  labs(x = 'Longitude', y='Latitude', title = "NC Dam Hazard and Monotonic Trend Analysis of subbasin (HUC8) annual water \nrun-off (1901-2018)\n",
+       color = "Dam Hazard", fill = "Trend Coefficient (%)") +
+  theme_bw() + theme(legend.key = element_blank()) +
+                       peaceful.theme
+dev.off()
 
 # 
 huc8_dam <- st_intersection(dam_nc_geo, basin_nc)
@@ -364,83 +353,5 @@ count(h[which(h$trend == 0),]) #776
 count(h[which(h$trend > 0),]) #17
 count(h[which(h$trend < 0),]) #514
 
-
-
-
-
-# to identify crs and epsg
-
-state_bound <- st_read(here("Data","Raw", "state_bounds.shp"))
-state_bound_nc <- state_bound[which(state_bound$NAME == "North Carolina"),]
-st_crs(state_bound_nc)
-
-
-
-proj4string
-
-
-
-
-
-
-
-
-
-
-
-
-
-#-----------------------------------------------------BS
-us_map <- map_data("state")
-ggplot() + geom_polygon(data = us_map, aes(x = long, y = lat, fill = region, group = group),
-               color = "white") +
-  coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
-  guides (fill = FALSE) + theme_void()
-
-nc <- subset(us_map, region %in% "north carolina")
-ggplot(data = nc) +
-  geom_polygon(aes(x = long, y = lat), color='white') +
-  coord_map(projection = "albers", lat0 = 35.7596, lat1 = 79.0913) +
-  guides (fill = FALSE) + theme_void()
-
-map()
-ggplot(data = us_states,
-       mapping = aes(x = long, y = lat)) + #, group = group, fill = coefficient
-  geom_polygon(color = "gray90", size = 0.1) +
-  coord_map(projection = "albers", lat0 = 39, lat1 = 45)+
-  theme_void() + theme(legend.position = c(0.90, 0.20))
-
-# Line plot for each state
-plot_ly(final_data, x=~begin_year, y=~acute_health_based, mode = 'lines',
-        color = final_data$state_name) %>%
-  add_lines() %>%
-  layout(xaxis = list(title = "Year",
-                      zeroline = FALSE),
-         yaxis = list(title = "Acute SDWA Violations",
-                      zeroline = FALSE))
-
-
-pdf(here("outputs", "pdf_test.pdf"), width = 11, height = 8.5)
-ggplot(data = cars) +
-  geom_point(aes(x = dist, y = speed))
-dev.off()
-
-# identifying outliers in continuous data
-ggplot()
-=======
-#-------------Exploratory data analysis
-# Dam safety hazards
-ggplot(dam) +
-  geom_boxplot(aes(hazard))
->>>>>>> 649baf41350e87761aafd6dbf815263a201968ff
-
-# exploring variables that explain dam safety
-
-# Map
-
-# Importing gage data for NC
-
-
 #information about each column http://files.hawaii.gov/dbedt/op/gis/data/nid_dams_data_dictionary.htm#Dam_type
-#nformation on how can dams collapse https://www.fema.gov/dam-failure-information 
-#git push -f origin master
+#information on how can dams collapse https://www.fema.gov/dam-failure-information 
