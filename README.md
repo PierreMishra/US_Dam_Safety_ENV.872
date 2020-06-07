@@ -23,21 +23,25 @@ dam safety, precipitation, water infrastructure, hydrology, north carolina, nati
 ## Database Information
 
 * 2019 National Inventory of Dams, US Army Corps of Engineers
+
 The NID dataset contains US dam inventory of approximately 90,000 dams. It has been further processed to contain columns of relevant variables. Source: <https://nid.sec.usace.army.mil/ords/f?p=105:21:7801154475967::NO:::>
 
 Accessed: March 23, 2020
 
 * WaterWatch, United States Geological Survey
-This platform provids computed annual run-off for all hydrologic units since 1901. The data was further cleaned and subsetted for North Carolina HUC-8. Source: <https://waterwatch.usgs.gov/index.php?id=romap3&sid=w__download>
+
+This platform provids computed annual run-off for all hydrologic units since 1901. The dataset comes with a PDF file named 'huc_8_readme.pdf' located in Data/Raw folder describing the methodology behind calculating annual run-off for the HUCs. The data was further cleaned and subsetted for North Carolina HUC-8 sub-basins. Source: <https://waterwatch.usgs.gov/index.php?id=romap3&sid=w__download>
 
 Accessed: April 3, 2020
 
 * 8-digits HUC sub-basins, NC Department of Environmental Quality Online GS 
+
 This data contains shapefiles of all HUC-8 sub basins for NC. The data was originated from USGS database. Source: <http://data-ncdenr.opendata.arcgis.com/datasets/8-digit-huc-subbasins?geometry=-85.940%2C33.597%2C-73.899%2C36.739&orderBy=HUC_8&orderByAsc=false>
 
 Accessed: April 3, 2020
 
 * States Boundary, Bureau of Transportation Statistics
+
 This a shapefile of all state boundaries. Source: <http://osav-usdot.opendata.arcgis.com/datasets/c6717a90c9fe4f1986ba40789cbe124f_0>
 
 Accessed: April 5, 2020
