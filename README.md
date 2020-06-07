@@ -1,5 +1,7 @@
 # US Dam Safety and Climate Change
 
+The results of the analysis can be found at Output/Mishra_FinalProject_ENV872.pdf
+
 ## Summary
 
 This repository contains the files pertaining to the hydrologic analysis of dams and their safety in US and specifically, North Carolina. Despite their socio-economic benefits, dams are prone to failure which can cause massive loss of life and property. According to the National Inventory of Dams (NID), currently, there are 14,254 dams that are classified as having high risk of failure. Therefore, my first goal is to study the variables related to dams that can affect their classification of failure risk. For such purpose, I use the 2019 National Inventory of Dams dataset released by the US Army Corps of Engineers. 
@@ -20,16 +22,25 @@ dam safety, precipitation, water infrastructure, hydrology, north carolina, nati
 
 ## Database Information
 
-* 2019 National Inventory of Dams, US Army Corps of Engineers,
-The NID dataset contains US dam inventory of approximately 90,000 dams. It has been further processed to contain columns of relevant variables.
+* 2019 National Inventory of Dams, US Army Corps of Engineers
+The NID dataset contains US dam inventory of approximately 90,000 dams. It has been further processed to contain columns of relevant variables. Source: <https://nid.sec.usace.army.mil/ords/f?p=105:21:7801154475967::NO:::>
 
 Accessed: March 23, 2020
 
-* North Carolina Daily Streamflow Conditions, United States Geological Survey
-Daily streamflow data obtained from USGS will be grouped to monthly data for the stations that fall within 5 miles of dams.
+* WaterWatch, United States Geological Survey
+This platform provids computed annual run-off for all hydrologic units since 1901. The data was further cleaned and subsetted for North Carolina HUC-8. Source: <https://waterwatch.usgs.gov/index.php?id=romap3&sid=w__download>
 
-Accessed: TBD
+Accessed: April 3, 2020
 
+* 8-digits HUC sub-basins, NC Department of Environmental Quality Online GS 
+This data contains shapefiles of all HUC-8 sub basins for NC. The data was originated from USGS database. Source: <http://data-ncdenr.opendata.arcgis.com/datasets/8-digit-huc-subbasins?geometry=-85.940%2C33.597%2C-73.899%2C36.739&orderBy=HUC_8&orderByAsc=false>
+
+Accessed: April 3, 2020
+
+* States Boundary, Bureau of Transportation Statistics
+This a shapefile of all state boundaries. Source: <http://osav-usdot.opendata.arcgis.com/datasets/c6717a90c9fe4f1986ba40789cbe124f_0>
+
+Accessed: April 5, 2020
 
 ## Folder structure, file formats, and naming conventions 
 
@@ -85,10 +96,14 @@ age | Years since a dams's construction completed | Number
 
 ## Scripts and code
 
-The following code was used to make the processed data set. Further edits will be updated.
+The following code was used to make the processed data set 'dam.csv'.
 
 ```R
 # Removing irrelevant columns
+# Lowercase column headers
+colnames(df) <- tolower(colnames(df))
+
+# Removing unnecessary columns
 dam <- df %>%   
   select(-c("other_dam_name","dam_former_name", "section",
             "stateid", "owner_name", "dam_designer",
@@ -104,7 +119,7 @@ dam <- df %>%
             "party", "cong_dist", "otherstructureid",
             "numseparatestructures", "permittingauthority",
             "inspectionauthority", "jurisdictionaldam",
-            "eap_last_rev_date")) 
+            "eap_last_rev_date"))
 
 # Correcting data types
 dam$dam_name <- as.character(dam$dam_name)
@@ -114,12 +129,58 @@ dam$river <- as.character(dam$river)
 dam$city <- as.character(dam$city)
 dam$state <- as.character(dam$state)
 
-# Removing dam records for which risk potential is undetermined or not available
+# Removing dam records with undetermined or NA risk
 dam <- droplevels(dam[!(dam$hazard=="U" | dam$hazard=="N"),])
+
+# Making dam hazard column into ordinal categorical type
+dam$hazard <- factor(dam$hazard, order = TRUE, levels = c("L", "S", "H"))
 
 # Calculating the age of dams
 dam$age <- 2019 - dam$year_completed
+
+# Export 
+write.csv(dam, "Data/Processed/dam.csv")
 ``` 
+
+The following code was used to make the processed data set 'log_dam_characteristics.csv'.
+
+```R
+# Log transforming data to improve skewness
+# count NAs in each column
+summary(is.na(dam_characteristics)) 
+
+# To prevent log transforming errors
+dam_characteristics[dam_characteristics==0] = 1 
+log_dam_characteristics <- log(dam_characteristics)
+log_dam_characteristics$hazard <- dam$hazard
+
+# Export
+write.csv(log_dam_characteristics, "Data/Processed/log_dam_characteristics.csv" )
+```
+
+The following code was used to make the processed data set 'huc8_runoff_nc.csv'.
+
+```R
+# Importing gage time series data
+huc8 <- read.csv("../Data/Raw/wy01d_col_data.txt", 
+                 sep = "\t")
+                 
+# Importing NC sub-basins shapefile
+basin_nc <- st_read("../Data/Raw/8Digit_HUC_Subbasins.shp")
+
+# renaming columns of gage dataset
+colnames(huc8) <- sub("X", "", colnames(huc8))
+
+# selecting gage columns for North Carolina by matching with NC basin shapefile
+huc8_nc <- huc8 %>%
+  select(date, one_of(as.character(basin_nc$HUC_8)))
+ncolumns <- ncol(huc8_nc)
+huc8_nc$date <- as.Date(huc8_nc$date, origin = "1901-01-01")
+huc8_nc_ts <- ts(huc8_nc[2:ncolumns]) 
+
+# Saving run-off time series for NC 
+write.csv(huc8_nc, "Data/Processed/huc8_runoff_nc.csv")
+```
 
 ## Quality assurance/quality control
 

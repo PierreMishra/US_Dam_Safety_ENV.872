@@ -174,7 +174,7 @@ dam_characteristics <- dam %>%
          dam_length)
 
 # Log transforming data to improve skewness
-summary(is.na(dam_characteristics)) # count NA in each column
+summary(is.na(dam_characteristics)) # count NAs in each column
 dam_characteristics[dam_characteristics==0] = 1 # to prevent log transforming errors
 log_dam_characteristics <- log(dam_characteristics)
 log_dam_characteristics$hazard <- dam$hazard
