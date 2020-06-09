@@ -24,7 +24,7 @@ peaceful.theme <- theme_classic(base_size = 14) +
         legend.position = "right")
 
 # Loading tabular dataset
-df <- read.csv("./Data/Raw/NID2019_U.csv")
+df <- read.csv("Data/Raw/NID2019_U.csv")
 colnames(df) <- tolower(colnames(df)) # lowecase column headers
 
 # Removing irrelevant columns
@@ -238,10 +238,10 @@ summary_table
 #-------------------------------------Monotonic trend analysis
 
 # importing gage data
-huc8 <- read.csv("./Data/Raw/wy01d_col_data.txt", 
+huc8 <- read.csv("Data/Raw/wy01d_col_data.txt", 
                  sep = "\t")
 # importing subbasins using API
-basin_nc <- st_read("./Data/Raw/8Digit_HUC_Subbasins.shp")
+basin_nc <- st_read("Data/Raw/8Digit_HUC_Subbasins.shp")
 
 # renaming columns
 colnames(huc8) <- sub("X", "", colnames(huc8))
