@@ -10,9 +10,7 @@ Moreover, I also plan to investigate the effect of precipitation and/or discharg
 
 ## Investigators
 
-Pierre Mishra
-Masters of Environmental Management, 2021
-Nicholas School of the Environment, Duke University
+Pierre Mishra, Masters of Environmental Management, 2021, Nicholas School of the Environment, Duke University
 
 Contact: prashank.mishra@duke.edu
 
