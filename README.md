@@ -4,9 +4,9 @@ The results of the analysis can be found at Output/Mishra_FinalProject_ENV872.pd
 
 ## Summary
 
-This repository contains the files pertaining to the hydrologic analysis of dams and their safety in US and specifically, North Carolina. Despite their socio-economic benefits, dams are prone to failure which can cause massive loss of life and property. According to the National Inventory of Dams (NID), currently, there are 14,254 dams that are classified as having high risk of failure. Therefore, my first goal is to study the variables related to dams that can affect their classification of failure risk. For such purpose, I use the 2019 National Inventory of Dams dataset released by the US Army Corps of Engineers. 
+This repository contains the files pertaining to the hydrologic analysis of dams and their safety in US and specifically, North Carolina. Despite their socio-economic benefits, dams are prone to failure which can cause massive loss of life and property. According to the National Inventory of Dams (NID), currently, there are 14,254 dams that are classified as having high risk of failure. Therefore, I studied the variables related to dams that can affect their classification of safety hazard. For such purpose, I used the 2019 National Inventory of Dams dataset released by the US Army Corps of Engineers. I performed ordinal logistic regression to determine the effects of various physical features of a dam on its classified safety hazard. 
 
-Moreover, I also plan to investigate the effect of precipitation and/or discharge on dam failure risk. Climate Change is increasing frequency of heaviest precipitation events across the US that can stress the physical structure of dams. For such purpose, I use USGS North Carolina stream gage data for the period of record in order to determine hydrologic trends.
+Moreover, I also investigated the effect of stream discharge on dam failure risk. Climate Change is increasing frequency of heaviest precipitation events which can stress the physical structure of dams. For such purpose, I used USGS Waterwatch data for the period of record and performed montonic trend analysis to determine the run-off trends in hydrologic unit 8 sub basins of North Carolina. I also used geocoding to combine and visualize the results of both of my analyses and observe whether high risk dams are present in sub basins with increasing run-off trends.
 
 ## Investigators
 
@@ -51,8 +51,6 @@ Accessed: April 5, 2020
   + Raw - Contains unedited csv and shapefiles
   + Processed - Contains edited csv file
 * Output - Contains .rmd file for developing the report and presenting results of the analysis
-
-File names are in the following format: final_project_env872_<title>(dot)<file_format>
 
 ## Metadata
 
