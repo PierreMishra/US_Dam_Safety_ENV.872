@@ -47,7 +47,7 @@ Accessed: April 5, 2020
 ## Folder structure and file formats
 
 * Code - Contains .R file for the analysis
-* Data - Contains raw and processed data sets in comma separated values and shapefile formats/
+* Data - Contains raw and processed data sets in comma separated values and shapefile formats
   + Raw - Contains unedited csv and shapefiles
   + Processed - Contains edited csv file
 * Output - Contains .rmd file for developing the report and presenting results of the analysis
