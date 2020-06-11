@@ -44,7 +44,7 @@ This a shapefile of all state boundaries. Source: <http://osav-usdot.opendata.ar
 
 Accessed: April 5, 2020
 
-## Folder structure, file formats, and naming conventions 
+## Folder structure and file formats
 
 * Code - Contains .R file for the analysis
 * Data - Contains raw and processed data sets in comma separated values and shapefile formats/
