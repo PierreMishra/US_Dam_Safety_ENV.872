@@ -18,7 +18,7 @@ Contact: prashank.mishra@duke.edu
 
 ## Keywords
 
-dam safety, precipitation, water infrastructure, hydrology, north carolina, national inventory of dams, usgs gage data, climate change
+dam safety, precipitation, water infrastructure, ordinal logistic regression, spatial analysis, monotonic trend analysis, R, hydrology, north carolina, national inventory of dams, usgs gage data, climate change
 
 ## Database Information
 
