@@ -152,14 +152,14 @@ ggplot(dam) +
 ggplot(dam) +
   geom_boxplot(aes(x=hazard, y = age),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Age (years") +
+  labs (x = "Hazard", y = "Age (years)") +
   peaceful.theme
 
 # Hazard vs Downstream Distance
 ggplot(dam) +
   geom_boxplot(aes(x=hazard, y = log(distance)),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Log (distance (miles))") +
+  labs (x = "Hazard", y = "Log distance (miles)") +
   peaceful.theme
 
 ```
@@ -184,43 +184,43 @@ log_dam_characteristics$hazard <- dam$hazard
 ggplot(log_dam_characteristics) +
   geom_boxplot(aes(x=hazard, y = volume),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Log (Volume (cubic yards))") +
+  labs (x = "Hazard", y = expression(Log~volume~(yards^{3}))) +
   peaceful.theme
 
 ggplot(log_dam_characteristics) +
   geom_boxplot(aes(x=hazard, y = nid_storage),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Log (Storage (acre-feet))") +
+  labs (x = "Hazard", y = "Log storage (acre-feet)") +
   peaceful.theme
 
 ggplot(log_dam_characteristics) +
   geom_boxplot(aes(x=hazard, y = spillway_width),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Log (Spillway width (feet))") +
+  labs (x = "Hazard", y = "Log spillway width (feet)") +
   peaceful.theme
 
 ggplot(log_dam_characteristics) +
   geom_boxplot(aes(x=hazard, y = drainage_area),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Log (Drainage area (sq-miles))") +
+  labs (x = "Hazard", y = expression(Log~drainage~area~(miles^{2}))) +
   peaceful.theme
 
 ggplot(log_dam_characteristics) +
   geom_boxplot(aes(x=hazard, y = nid_height),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Log (Height (feet))") +
+  labs (x = "Hazard", y = "Log height (feet)") +
   peaceful.theme
 
 ggplot(log_dam_characteristics) +
   geom_boxplot(aes(x=hazard, y = surface_area),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Log (Surface area (acre))") +
+  labs (x = "Hazard", y = "Log surface area (acre)") +
   peaceful.theme
 
 ggplot(log_dam_characteristics) +
   geom_boxplot(aes(x=hazard, y = dam_length),
                fill = c("coral","cyan","darkgoldenrod1")) +
-  labs (x = "Hazard", y = "Log (Dam length (feet))") +
+  labs (x = "Hazard", y = "Log dam length (feet)") +
   peaceful.theme
 
 ```
