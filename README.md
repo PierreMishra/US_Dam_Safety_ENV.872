@@ -40,7 +40,7 @@ This data contains shapefiles of all HUC-8 sub basins for NC. The data was origi
 
 Accessed: April 3, 2020
 
-* States Boundary, Bureau of Transportation Statistics
+* NC States Boundary, Bureau of Transportation Statistics
 
 This a shapefile of all state boundaries. Source: <http://osav-usdot.opendata.arcgis.com/datasets/c6717a90c9fe4f1986ba40789cbe124f_0>
 
