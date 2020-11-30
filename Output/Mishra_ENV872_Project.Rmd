@@ -138,7 +138,7 @@ To familiarize ourselves with the response variable, the number of dams by their
 # Dam safety hazard
 ggplot(dam, aes(x=hazard)) +
   geom_bar(fill = c("coral","cyan","darkgoldenrod1")) + 
-  labs (x = "Count", y = "Hazard") +
+  labs (x = "Hazard", y = "Number of Dams") +
   peaceful.theme
 
 # Hazard Vs Inspection Frequency
